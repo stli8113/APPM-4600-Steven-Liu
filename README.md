@@ -1,0 +1,14 @@
+# testrep
+Test repository
+
+This is a repository for APPM 4600 for CU Boulder Fall 2023, all coding coursework will be stored here. 
+
+Structure
+Homework
+--Homework 1
+    --Homework.py
+Labs
+--Lab 1
+  --Lab 1.py
+--Lab 2
+    Lab.py
