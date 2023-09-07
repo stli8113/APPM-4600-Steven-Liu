@@ -16,27 +16,25 @@ def driver():
      matprod = matrixMult(mx,my,n)
 
 # print the output
-     ''
      print('the dot product is : ', dp)
      print('matrix mult = ',matprod)
-     ''
-     #print(np.dot(x,y))
-     #print(np.matmul(mx,my))
+     
 
      return
      
 def dotProduct(x,y,n):
-
+     #takes dot product of two n long vectors
      dp = 0.
-     for j in range(n):
+     for j in range(n): #loops and adds each product
         dp = dp + x[j]*y[j]
 
      return dp  
 
 def matrixMult(x,y,n):
+    #multiplies 2 n x n matrices1
     product = np.zeros((n,n))
     for i in range(n):
-        for j in range(n):
+        for j in range(n): #2 nested loops to run through every combination required for matrix mult
             product[i][j] = dotProduct(x[i],y[:,j],n)
     return product
 
