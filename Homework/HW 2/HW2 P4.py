@@ -24,16 +24,21 @@ def plotCircles(R, dr, f, p):
 
 #set up vectors
 
-t = np.arange(0,np.pi, np.pi/30)
+t = np.linspace(0,np.pi, 31)
 y = np.cos(t)
 
-S = dotProduct(t,y,30)
+print(np.dot(t,y))
+
+S = dotProduct(t,y,31)
 print("The sum is:", S)
 
+#problem b
+#set up parameterized results
 x, y = plotCircles(1.2,.1,15,0)
 plt.figure(1)
 plt.plot(x,y)
 
+#loop through 10 parameter combinations and plot
 plt.figure(2)
 for i in range(10):
     p = rand.uniform(0,2)
