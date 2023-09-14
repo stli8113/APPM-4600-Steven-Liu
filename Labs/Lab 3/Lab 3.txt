@@ -10,4 +10,5 @@ Problem 3:
 
 all fixed points are verified at 7^1/5
 
-The functions that don't converge have behaviors that lead the fixed point calculation to higher and higher values in each iteration, which eventually leads to overflow errors
+The functions that don't converge have behaviors that lead the fixed point calculation to higher and higher values in each iteration, which eventually leads to overflow errors.
+this probably has to do with the derivative of f(x)
