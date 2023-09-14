@@ -1,0 +1,13 @@
+Problem 1:
+Root of f(x) is 0.5
+intervals outside the root lead to expected error
+
+Problem 2:
+
+Second function does not find a root between 0 and 2 since the root at 1 has an even multiplicity and no sign change. this is expected 
+
+Problem 3:
+
+all fixed points are verified at 7^1/5
+
+The functions that don't converge have behaviors that lead the fixed point calculation to higher and higher values in each iteration, which eventually leads to overflow errors
