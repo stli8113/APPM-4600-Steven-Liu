@@ -29,6 +29,6 @@ P = lambda x:  x + .5 * x**2
 x = 9.999999995000000 * 10**-10
 realY = 10**-9
 
-print(R(0,x))
+#print(R(2,x))
 print(P(x))
 #print(y(x), realY)

@@ -37,6 +37,12 @@ print("The sum is:", S)
 x, y = plotCircles(1.2,.1,15,0)
 plt.figure(1)
 plt.plot(x,y)
+plt.title("Wavy circle")
+plt.xlabel("x")
+plt.ylabel("y")
+ax = plt.gca()
+ax.set_aspect('equal')
+
 
 #loop through 10 parameter combinations and plot
 plt.figure(2)
@@ -44,4 +50,9 @@ for i in range(10):
     p = rand.uniform(0,2)
     x,y = plotCircles(i,.05,2+i,p)
     plt.plot(x,y)
+plt.title("Wavy circles")
+plt.xlabel("x")
+plt.ylabel("y")
+ax = plt.gca()
+ax.set_aspect('equal')
 plt.show()
