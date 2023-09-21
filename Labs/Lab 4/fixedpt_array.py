@@ -4,24 +4,21 @@ import numpy as np
 def driver():
 
 # test functions 
-     f1 = lambda x: x * (1 + (7-x**5)/x**2)**3
-     f2 = lambda x: x - ((x**5-7)/x**2)
-     f3 = lambda x: x - ((x**5-7)/(5*x**4))
-     f4 = lambda x: x - ((x**5-7)/12)
-     #fixed point at 7^1/5 for all f1-f4
-     print(f2(1.5))
+     f1 = lambda x: (10/(x+4))**0.5
 
      Nmax = 100
      tol = 1e-10
 
 # test f1 '''
-     x0 = .5
-     [xstars,ier] = fixedpt(f3,x0,tol,Nmax)
+     x0 = 2.5
+     [xstars,ier] = fixedpt(f1,x0,tol,Nmax)
      print(xstars)
      print('the approximate fixed point is:',xstars[-1])
      print('f1(xstar):',f1(xstars[-1]))
      print('Error message reads:',ier)
-    
+
+     p_n = aitken(xstars,tol,len(xstars))
+     print(p_n)
 
 # define routines
 def fixedpt(f,x0,tol,Nmax):
@@ -46,6 +43,19 @@ def fixedpt(f,x0,tol,Nmax):
     xstars[-1] = x1
     ier = 1
     return [xstars, ier]
-    
+
+def aitken(p, tol, Nmax):
+   ''' p = array of fxpoint sequence''' 
+   ''' Nmax = max number of iterations'''
+   ''' tol = stopping tolerance'''
+   p_n = np.zeros(Nmax) 
+   count = 0
+   while count + 3 <= Nmax:
+      p_n[count] = p[count] - (p[count+1] - p[count])**2 / (p[count+2] - 2*p[count+1] + p[count])
+      if (abs(p_n[count] - p_n[count-1]) < tol):
+         return p_n[0:count-2]
+      count += 1
+   return p_n[0:count-2]
+
 
 driver()
