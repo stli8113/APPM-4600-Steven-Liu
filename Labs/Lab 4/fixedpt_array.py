@@ -21,8 +21,8 @@ def driver():
      print("Aitken converges in", len(p_n), "iterations")
      print("Aitken converges to:", p_n[-1])
 
-     stefEst = steffon(x0,f1,Nmax,tol)
-     print("steffon converges to:",stefEst)
+     stefEst = steffenson(x0,f1,Nmax,tol)
+     print("Steffenson converges to:",stefEst)
 
 # define routines
 def fixedpt(f,x0,tol,Nmax):
@@ -61,7 +61,7 @@ def aitken(p, tol, Nmax):
       count += 1
    return p_n[0:count-2]
 
-def steffon(x0, f1, Nmax, tol):
+def steffenson(x0, f1, Nmax, tol):
    ''' x0 = initial guess''' 
    ''' Nmax = max number of iterations'''
    ''' tol = stopping tolerance'''
