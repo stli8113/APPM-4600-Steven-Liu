@@ -10,7 +10,7 @@ def driver():
      tol = 1e-10
 
 # test f1 '''
-     x0 = 2.5
+     x0 = 1.5
      [xstars,ier] = fixedpt(f1,x0,tol,Nmax)
      print(xstars)
      print('the approximate fixed point is:',xstars[-1])
@@ -18,7 +18,11 @@ def driver():
      print('Error message reads:',ier)
 
      p_n = aitken(xstars,tol,len(xstars))
-     print(p_n)
+     print("Aitken converges in", len(p_n), "iterations")
+     print("Aitken converges to:", p_n[-1])
+
+     stefEst = steffon(x0,f1,Nmax,tol)
+     print("steffon converges to:",stefEst)
 
 # define routines
 def fixedpt(f,x0,tol,Nmax):
@@ -56,6 +60,23 @@ def aitken(p, tol, Nmax):
          return p_n[0:count-2]
       count += 1
    return p_n[0:count-2]
+
+def steffon(x0, f1, Nmax, tol):
+   ''' x0 = initial guess''' 
+   ''' Nmax = max number of iterations'''
+   ''' tol = stopping tolerance'''
+   x1 = f1(x0)
+   x2 = f1(x1)
+   count = 0
+   while (count <= Nmax):
+      xEst = x0 - (x1 - x0)**2 / (x2 - 2*x1 + x0)
+      if abs(xEst - x0) < tol:
+         return xEst
+      x0 = xEst
+      x1 = f1(xEst)
+      x2 = f1(x1)
+      
+      count += 1
 
 
 driver()
