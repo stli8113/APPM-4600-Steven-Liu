@@ -7,7 +7,7 @@ def driver():
     x = np.linspace(-2,6,100)
     y = f1(x)
     
-    x0 = 4.5
+    x0 = -.5
     tol = 10e-10
     Nmax = 100
     [astar, ier] = fixedpt(f1, x0, tol, Nmax)
