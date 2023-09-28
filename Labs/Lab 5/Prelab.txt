@@ -1,0 +1,6 @@
+Method      Input    Iteration   Idea behind method     Required for convergence    Pros     Cons
+
+Bisection   2 points    Take middle point and evaluate, then choose new endpoints based on sign change   need sign change for convergence   simple  not very general
+Fixed point 1 point     take point, evaluate and use that as next point and repeat      find intersection of f(x)=x0    needs f'(x)<1 to converge   simple  tends to diverge
+Newton      1 point, derivative of f(x)     find root of tangent line to find root      f''(x) exists       higher order convergence    convergence goes linear if mult>1
+Secant      2 points    find root of secant line and use that and last point to iterate     simpler than Newton     may end up oscillating around root infinitely
