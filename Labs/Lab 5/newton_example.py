@@ -17,15 +17,15 @@ def driver():
   b =4.5
 
   (pstar, info, it) = hybridBisection(f,fp,fp2,a,b,tol, Nmax)
-  print('the approximate root is', '%16.16e' % pstar)
+  print('hybrid method--\n the approximate root is', '%16.16e' % pstar)
   print('the error message reads:', '%d' % info)
   print('Number of iterations:', '%d' % it)
   (_,pstar,info,it) = newton(f,fp,p0,tol,Nmax)
-  print('the approximate root is', '%16.16e' % pstar)
+  print('newton\'s method--\n the approximate root is', '%16.16e' % pstar)
   print('the error message reads:', '%d' % info)
   print('Number of iterations:', '%d' % it)
   (pstar, info, it) = bisection(f, a, b, tol)
-  print('the approximate root is', '%16.16e' % pstar)
+  print('bisection--\n the approximate root is', '%16.16e' % pstar)
   print('the error message reads:', '%d' % info)
   print('Number of iterations:', '%d' % it)
 
