@@ -6,14 +6,25 @@ def driver():
 #fp = lambda x: 3*(x-2)**2
 #p0 = 1.2
 
-  f = lambda x: (x-2)*(x-5)*np.exp(x)
-  fp = lambda x: (x-2)*(x-5)*np.exp(x)+(2*x-7)*np.exp(x) 
-  p0 = 1.2
+  f = lambda x: np.exp(x**2+7*x-30) - 1
+  fp = lambda x: np.exp(x**2+7*x-30) * (2*x + 7)
+  fp2 = lambda x: np.exp(x**2+7*x-30) * 2 + (2*x + 7)**2 * np.exp(x**2+7*x-30) 
+  p0 = 4.5
 
   Nmax = 100
   tol = 1.e-14
+  a =2
+  b =4.5
 
-  (p,pstar,info,it) = newton(f,fp,p0,tol, Nmax)
+  (pstar, info, it) = hybridBisection(f,fp,fp2,a,b,tol, Nmax)
+  print('the approximate root is', '%16.16e' % pstar)
+  print('the error message reads:', '%d' % info)
+  print('Number of iterations:', '%d' % it)
+  (_,pstar,info,it) = newton(f,fp,p0,tol,Nmax)
+  print('the approximate root is', '%16.16e' % pstar)
+  print('the error message reads:', '%d' % info)
+  print('Number of iterations:', '%d' % it)
+  (pstar, info, it) = bisection(f, a, b, tol)
   print('the approximate root is', '%16.16e' % pstar)
   print('the error message reads:', '%d' % info)
   print('Number of iterations:', '%d' % it)
@@ -50,10 +61,10 @@ def newton(f,fp,p0,tol,Nmax):
   info = 1
   return [p,pstar,info,it]
 
-def bisection(f,fp,fp2,a,b,tol):
+def bisection(f,a,b,tol):
     
 #    Inputs:
-#     f,fp,a,b       - function, derivatives and endpoints of initial interval
+#     f,a,b       - function and endpoints of initial interval
 #      tol  - bisection stops when interval length < tol
 
 #    Returns:
@@ -65,7 +76,7 @@ def bisection(f,fp,fp2,a,b,tol):
 #     first verify there is a root we can find in the interval 
 
     fa = f(a)
-    fb = f(b)
+    fb = f(b);
     if (fa*fb>0):
        ier = 1
        astar = a
@@ -84,8 +95,7 @@ def bisection(f,fp,fp2,a,b,tol):
 
     count = 0
     d = 0.5*(a+b)
-    fd2 = f(d)*fp2(d) / fp(d)**2
-    while (abs(fd2) > 1):
+    while (abs(d-a)> tol):
       fd = f(d)
       if (fd ==0):
         astar = d
@@ -97,12 +107,64 @@ def bisection(f,fp,fp2,a,b,tol):
         a = d
         fa = fd
       d = 0.5*(a+b)
-      fd2 = f(d)*fp2(d) / fp(d)**2
       count = count +1
 #      print('abs(d-a) = ', abs(d-a))
       
     astar = d
     ier = 0
-    return [astar, ier]
+    return [astar, ier, count]
+
+def hybridBisection(f,fp,fp2,a,b,tol,Nmax):
+    
+#    Inputs:
+#     f,fp,a,b       - function, derivatives and endpoints of initial interval
+#      tol  - bisection stops when interval length < tol
+
+#    Returns:
+#      astar - approximation of root
+#      ier   - error message
+#            - ier = 1 => Failed
+#            - ier = 0 == success
+
+#     first verify there is a root we can find in the interval 
+
+    fa = f(a)
+    fb = f(b)
+    if (fa*fb>0):
+       ier = 1
+       astar = a
+       return [astar, ier, 0]
+
+#   verify end points are not a root 
+    if (fa == 0):
+      astar = a
+      ier =0
+      return [astar, ier, 0]
+
+    if (fb ==0):
+      astar = b
+      ier = 0
+      return [astar, ier, 0]
+
+    count = 0
+    d = 0.5*(a+b)
+    fd2 = f(d)*fp2(d) / fp(d)**2
+    while (abs(fd2) > 1):
+      fd = f(d)
+      if (fd ==0):
+        astar = d
+        ier = 0
+        return [astar, ier, count]
+      if (fa*fd<0):
+         b = d
+      else: 
+        a = d
+        fa = fd
+      d = 0.5*(a+b)
+      fd2 = f(d)*fp2(d) / fp(d)**2
+      count = count +1
+#      print('abs(d-a) = ', abs(d-a))
+    (_,astar,info,it) = newton(f,fp,d,tol,Nmax)
+    return [astar, info, it]
         
 driver()
