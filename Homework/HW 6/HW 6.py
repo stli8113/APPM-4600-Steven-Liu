@@ -234,4 +234,14 @@ def SteepestDescent(x,tol,Nmax):
     print('max iterations exceeded')    
     ier = 1        
     return [x,g1,ier]
+
+def steepestNewton(x0, tol, Nmax, newtonStop):
+
+    stop = newtonStop
+    newtonStart, gval, ier = SteepestDescent(x0, stop, Nmax)
+    if (ier == 1):
+        return newtonStart, ier
+    x, ier, its = Newton(newtonStart, tol, Nmax)
+    return [x, ier]
+
 driver()
