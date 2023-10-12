@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def driver():
 
 
-    f = lambda x: np.exp(x)
+    f = lambda x: 1/  (1 + (10*x)**2)
 
     N = 3
     ''' interval'''
@@ -60,6 +60,21 @@ def driver():
     plt.legend()
     plt.show()
 
+def monomial(xeval, xint, yint, N):
+    V = np.ones(N,N)
+    i = 1
+    while (i < N):
+        for j in range(N):
+            V[j,i] = xint[j]**i
+        i += 1
+    Vinv = la.inv(V)
+    A = np.matmul(Vinv, np.transpose(yint))
+    y = 0
+    for i in range(N):
+        y += A[i] * xeval**i
+    return y
+    
+
 def eval_lagrange(xeval,xint,yint,N):
 
     lj = np.ones(N+1)
@@ -85,8 +100,8 @@ def dividedDiffTable(x, y, n):
     for i in range(1, n):
         for j in range(n - i):
             y[j][i] = ((y[j][i - 1] - y[j + 1][i - 1]) /
-                                     (x[j] - x[i + j]));
-    return y;
+                                     (x[j] - x[i + j]))
+    return y
     
 def evalDDpoly(xval, xint,y,N):
     ''' evaluate the polynomial terms'''
