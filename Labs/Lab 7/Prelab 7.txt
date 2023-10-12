@@ -1,0 +1,5 @@
+The Vandermonde matrix is a nxn square matrix where each row m is composed of [1, x_m, x_m^2, ..., x_m^n]
+
+To create the matrix, you could loop over each row and populate an nxn array.
+
+For the lab, we will be exploring 3 different method of constructing a polynomial approximation, then exploring ways of minimizing the runge phenomenon.
