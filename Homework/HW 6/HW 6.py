@@ -39,22 +39,22 @@ def driver():
     # print('Broyden: took this many seconds:',elapsed/20)
     # print('Broyden: number of iterations is:',its)
 
-    # t = time.time()
-    # for j in range(20):
-    #     [xstar,gval,ier] = SteepestDescent(x0,tol,Nmax)
-    # elapsed = time.time()-t
-    # print(xstar)
-    # print('Steepest Descent: the error message reads:',ier)
-    # print('Steepest Descent: took this many seconds:',elapsed/20)
-    # print('Steepest Descent: g evaluated at:',gval)
+    t = time.time()
+    for j in range(20):
+        [xstar,gval,ier] = SteepestDescent(x0,tol,Nmax)
+    elapsed = time.time()-t
+    print(xstar)
+    print('Steepest Descent: the error message reads:',ier)
+    print('Steepest Descent: took this many seconds:',elapsed/20)
+    print('Steepest Descent: g evaluated at:',gval)
 
-    # t = time.time()
-    # for j in range(20):
-    #     [xstar,ier] = steepestNewton(x0,tol,Nmax, 5e-2)
-    # elapsed = time.time()-t
-    # print(xstar)
-    # print('Steepest Newton: the error message reads:',ier)
-    # print('Steepest Newton: took this many seconds:',elapsed/20)
+    t = time.time()
+    for j in range(20):
+        [xstar,ier] = steepestNewton(x0,tol,Nmax, 5e-2)
+    elapsed = time.time()-t
+    print(xstar)
+    print('Steepest Newton: the error message reads:',ier)
+    print('Steepest Newton: took this many seconds:',elapsed/20)
      
 def evalF(x): 
 
