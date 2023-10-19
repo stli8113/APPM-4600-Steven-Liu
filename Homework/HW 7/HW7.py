@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 def driver():
     f = lambda x: 1/  (1 + (10*x)**2)
 
-    N = 8
+    N = 19
     ''' interval'''
     a = -1
     b = 1
@@ -14,8 +14,8 @@ def driver():
    
     ''' create equispaced interpolation nodes'''
     xint = np.linspace(a,b,N+1)
-    for i in range(N+1):
-        xint[i] = np.cos(((2*(i+1) - 1)*np.pi) / (2*(N+1)))
+    # for i in range(N+1):
+    #     xint[i] = np.cos(((2*(i+1) - 1)*np.pi) / (2*(N+1)))
 
     ''' create interpolation data'''
     yint = f(xint)
@@ -37,13 +37,13 @@ def driver():
     ''' create vector with exact values'''
     fex = f(xeval)
 
-    print(yeval_bary[0], yeval_l[0])
+    # print(xeval[500], eval_bary(xeval[500],xint,yint,N))
 
     plt.figure(1)    
     plt.plot(xeval,fex,'ro-',label="function")
     plt.plot(xeval,yeval_bary,'bs--',label="barycentric") 
     plt.plot(xeval,yeval_l,'ko--',label="lagrange") 
-    plt.title("Approximation for N=5 with cos distribution")
+    plt.title("Approximation for N=19 with cos distribution")
     plt.legend()
     plt.show()
     return
@@ -58,14 +58,17 @@ def eval_bary(xeval,xint,yint,N):
         if(xeval != xint[jj]):
             lj[jj] = (wj / (xeval - xint[jj]))
         else:
-            lj[jj] = 0
+            return yint[jj] #check if x == xi and return known value to avoid zero out from phi
 
 
     yeval = 0.
+    # print(lj, yint, np.dot(lj, yint))
     
     for jj in range(N+1):
        yeval = yeval + yint[jj]*lj[jj]
-
+    #    print(yeval)
+    # print(phi)
+    
     yeval = yeval * phi
   
     return(yeval)
@@ -73,7 +76,7 @@ def eval_bary(xeval,xint,yint,N):
 def eval_phi(x, xint):
     phi = 1
     for xi in xint:
-        phi *= (x - xi)
+        phi = phi * (x - xi)
     return phi
 
 def eval_w_j(xint, j):
