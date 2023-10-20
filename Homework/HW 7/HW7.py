@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 def driver():
     f = lambda x: 1/  (1 + (10*x)**2)
 
-    N = 19
+    N = 40
     ''' interval'''
     a = -1
     b = 1
@@ -14,8 +14,8 @@ def driver():
    
     ''' create equispaced interpolation nodes'''
     xint = np.linspace(a,b,N+1)
-    # for i in range(N+1):
-    #     xint[i] = np.cos(((2*(i+1) - 1)*np.pi) / (2*(N+1)))
+    for i in range(N+1):
+        xint[i] = np.cos(((2*(i+1) - 1)*np.pi) / (2*(N+1)))
 
     ''' create interpolation data'''
     yint = f(xint)
@@ -43,7 +43,7 @@ def driver():
     plt.plot(xeval,fex,'ro-',label="function")
     plt.plot(xeval,yeval_bary,'bs--',label="barycentric") 
     plt.plot(xeval,yeval_l,'ko--',label="lagrange") 
-    plt.title("Approximation for N=19 with cos distribution")
+    plt.title("Approximation for order 40 with cos distribution")
     plt.legend()
     plt.show()
     return
