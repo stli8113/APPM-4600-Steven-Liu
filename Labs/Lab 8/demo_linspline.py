@@ -12,27 +12,31 @@ def driver():
     b = 1
     
     ''' create points you want to evaluate at'''
-    Neval = 100
+    Neval = 1000
     xeval =  np.linspace(a,b,Neval)
     
     ''' number of intervals'''
-    Nint = 10
+    Nint = 8
     
     '''evaluate the linear spline'''
     yeval = eval_lin_spline(xeval,Neval,a,b,f,Nint)
     
+    #evaluate cubic spline
+    M = eval_Ms(Nint,f,a,b)
+    print(M)
+    yeval_cube = eval_poly_spline(xeval, Neval, a, b, f, Nint, M)
+
     ''' evaluate f at the evaluation points'''
     fex = np.zeros(Neval)
     for j in range(Neval):
       fex[j] = f(xeval[j]) 
 
-    M = eval_Ms(10,f,a,b)
-    print(M)
       
     
     plt.figure()
     plt.plot(xeval,fex,'ro-')
     plt.plot(xeval,yeval,'bs-')
+    plt.plot(xeval,yeval_cube, "k-")
     # plt.legend()
      
     err = abs(yeval-fex)
@@ -42,10 +46,12 @@ def driver():
     
     
 def eval_Ms(Neval, f, a, b):
+   print(Neval)
    offsets = [-1,0,1]
-   diagVals = [np.ones(Neval-3)/12, np.ones(Neval-2)/3, np.ones(Neval-3)/12]
+   diagVals = [np.ones(Neval-2)/12, np.ones(Neval-1)/3, np.ones(Neval-2)/12]
    x = np.linspace(a,b,Neval+1)
-   y = np.zeros(Neval-2)
+   y = np.zeros(Neval-1)
+   coeffM = np.zeros(Neval+1)
 
    dx = x[1] - x[0]
    M = diags(diagVals, offsets).toarray()
@@ -56,7 +62,7 @@ def eval_Ms(Neval, f, a, b):
    Minv = inv(M)
 
    print(np.shape(M), np.shape(y))
-   coeffM = np.matmul(Minv, y)
+   coeffM[1:-1] = np.matmul(Minv, y)
 
    return coeffM
 
@@ -105,7 +111,6 @@ def  eval_poly_spline(xeval,Neval,a,b,f,Nint, M):
     '''create vector to store the evaluation of the linear splines'''
     yeval = np.zeros(Neval) 
     
-    
     for jint in range(Nint):
         '''find indices of xeval in interval (xint(jint),xint(jint+1))'''
         '''let ind denote the indices in the intervals'''
@@ -127,7 +132,10 @@ def  eval_poly_spline(xeval,Neval,a,b,f,Nint, M):
            in the interval'''
            '''yeval(ind(kk)) = call your line evaluator at xeval(ind(kk)) with 
            the points (a1,fa1) and (b1,fb1)'''
-           C = fa1/h - h/6 * M[kk]
+           C = fa1/h - h/6 * M[jint]
+           D = fb1/h - h/6 * M[jint+1]
+           interp = (xint[jint+1] - xeval[ind[kk]])**3 * M[jint] / (6*h) + (xeval[ind[kk]] - xint[jint])**3 * M[jint+1] / (6*h) + C*(xint[jint+1] - xeval[ind[kk]]) + D*(xeval[ind[kk]] - xint[jint])
+           yeval[ind[kk]] = interp
     # print(yeval)
     return yeval
            
