@@ -16,7 +16,7 @@ def driver():
     xeval =  np.linspace(a,b,Neval)
     
     ''' number of intervals'''
-    Nint = 8
+    Nint = 15
     
     '''evaluate the linear spline'''
     yeval = eval_lin_spline(xeval,Neval,a,b,f,Nint)
@@ -34,19 +34,20 @@ def driver():
       
     
     plt.figure()
-    plt.plot(xeval,fex,'ro-')
-    plt.plot(xeval,yeval,'bs-')
-    plt.plot(xeval,yeval_cube, "k-")
-    # plt.legend()
+    plt.plot(xeval,fex,'ro-',label="f(x)")
+    # plt.plot(xeval,yeval,'bs-')
+    plt.plot(xeval,yeval_cube, "k-",label="cubic spline")
+    plt.legend()
      
-    err = abs(yeval-fex)
+    err = abs(yeval_cube-fex)    
+    # print(err[900:])
     plt.figure()
     plt.plot(xeval,err,'ro-')
     plt.show()
     
     
 def eval_Ms(Neval, f, a, b):
-   print(Neval)
+  #  print(Neval)
    offsets = [-1,0,1]
    diagVals = [np.ones(Neval-2)/12, np.ones(Neval-1)/3, np.ones(Neval-2)/12]
    x = np.linspace(a,b,Neval+1)
@@ -56,12 +57,13 @@ def eval_Ms(Neval, f, a, b):
    dx = x[1] - x[0]
    M = diags(diagVals, offsets).toarray()
    M = np.array(M)
+   
 
    for i in range(Neval-2):
       y[i] = (f(x[i+2]) - 2*f(x[i+1]) + f(x[i]))/(2*dx**2)
    Minv = inv(M)
 
-   print(np.shape(M), np.shape(y))
+  #  print(, np.shape(y))
    coeffM[1:-1] = np.matmul(Minv, y)
 
    return coeffM
@@ -134,7 +136,7 @@ def  eval_poly_spline(xeval,Neval,a,b,f,Nint, M):
            the points (a1,fa1) and (b1,fb1)'''
            C = fa1/h - h/6 * M[jint]
            D = fb1/h - h/6 * M[jint+1]
-           interp = (xint[jint+1] - xeval[ind[kk]])**3 * M[jint] / (6*h) + (xeval[ind[kk]] - xint[jint])**3 * M[jint+1] / (6*h) + C*(xint[jint+1] - xeval[ind[kk]]) + D*(xeval[ind[kk]] - xint[jint])
+           interp = ((xint[jint+1] - xeval[ind[kk]])**3 * M[jint] / (6*h)) + ((xeval[ind[kk]] - xint[jint])**3 * M[jint+1] / (6*h)) + C*(xint[jint+1] - xeval[ind[kk]]) + D*(xeval[ind[kk]] - xint[jint])
            yeval[ind[kk]] = interp
     # print(yeval)
     return yeval
