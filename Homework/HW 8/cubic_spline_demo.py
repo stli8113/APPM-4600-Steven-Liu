@@ -14,8 +14,12 @@ def driver():
     b = 5
 
     ''' number of intervals'''
-    Nint = 4
+    Nint = 19
     xint = np.linspace(a,b,Nint+1)
+    for i in range(Nint+1):
+        xint[i] = np.cos(((2*(i+1) - 1)*np.pi) / (2*(Nint+1)))
+    
+    xint = xint * -5
     yint = f(xint)
     ypint = fp(xint)
 
@@ -24,10 +28,10 @@ def driver():
     xeval =  np.linspace(xint[0],xint[Nint],Neval+1)
 
     
-    fp0 = fp(xint[0])
-    fpn = fp(xint[-1]) 
+    # fp0 = fp(xint[0])
+    # fpn = fp(xint[-1]) 
     (M,C,D) = create_natural_spline(yint,xint,Nint)
-    (M1,C1,D1) = create_clamped_spline(yint,xint,Nint, fp0, fpn)
+    (M1,C1,D1) = create_clamped_spline(yint,xint,Nint, ypint[0], ypint[-1])
     
     # print('M =', M)
 #    print('C =', C)
@@ -42,7 +46,6 @@ def driver():
         yevalH[kk] = eval_hermite(xeval[kk],xint,yint,ypint,Nint)
 
     # print('yeval = ', yeval)
-    
     ''' evaluate f at the evaluation points'''
     fex = f(xeval)
         
@@ -62,6 +65,7 @@ def driver():
     plt.plot(xeval,yevalL,'mo-',label='Lagrange')
     plt.plot(xeval,yeval,'bs--',label='natural spline') 
     plt.plot(xeval,yeval_clamp,'ys--',label='clamped spline') 
+    # plt.semilogy()
     plt.legend()
      
     err = abs(yeval-fex)
@@ -70,7 +74,7 @@ def driver():
     errclamp = abs(yeval_clamp-fex)
     plt.figure() 
     plt.semilogy(xeval,errclamp,'bo--',label='absolute error clamped')
-    plt.semilogy(xeval,err,'ko--',label='absolute error')
+    plt.semilogy(xeval,err,'ko--',label='absolute error natural')
     plt.semilogy(xeval,errL,'yo--',label='absolute error Lagrange')
     plt.semilogy(xeval,errH,'go--',label='absolute error Hermite')
     plt.legend()
@@ -157,7 +161,10 @@ def eval_local_spline(xeval,xi,xip,Mi,Mip,C,D):
 # Evaluates the local spline as defined in class
 # xip = x_{i+1}; xi = x_i
 # Mip = M_{i+1}; Mi = M_i
-
+    # print(xip)
+    # print(xi) 
+    # print(xeval)
+    # print(Mip)
     hi = xip-xi
     yeval = (Mi*(xip-xeval)**3 +(xeval-xi)**3*Mip)/(6*hi) \
             + C*(xip-xeval) + D*(xeval-xi)
@@ -177,10 +184,11 @@ def  eval_cubic_spline(xeval,Neval,xint,Nint,M,C,D):
 #   find indices of values of xeval in the interval
         ind= np.where((xeval >= atmp) & (xeval <= btmp))
         xloc = xeval[ind]
-
+        # print(xeval)
+        # print(xint)
 # evaluate the spline
         yloc = eval_local_spline(xloc,atmp,btmp,M[j],M[j+1],C[j],D[j])
-#        print('yloc = ', yloc)
+        # print('yloc = ', yloc)
 #   copy into yeval
         yeval[ind] = yloc
 
