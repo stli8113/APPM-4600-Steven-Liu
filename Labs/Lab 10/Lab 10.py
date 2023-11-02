@@ -8,6 +8,7 @@ def driver():
     print("starting\n")
     # function you want to approximate
     f = lambda x: 1 / (1 + x**2)
+    # f = lambda x: np.exp(x)
     # interval of interest
     a = -1
     b = 1
