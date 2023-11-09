@@ -1,12 +1,16 @@
 import numpy as np
-
+from scipy.integrate import quad
 def driver():
-    f = lambda x: 1 / (1 - x**2)
+    f = lambda x: 1 / (1 + x**2)
     a = -5
     b = 5
 
-    print(trapz(a,b,5, f))
-    print(simpsons(a,b,6,f))
+    y, err, infodict= quad(f, a, b, full_output=1)
+    # y, err, infodict, _= quad(f, a, b, full_output=1, epsabs=10**-4)
+    print(infodict["neval"])
+    print(y)
+    print(trapz(a,b,1291, f))
+    print(simpsons(a,b,108,f))
     return
 
 
