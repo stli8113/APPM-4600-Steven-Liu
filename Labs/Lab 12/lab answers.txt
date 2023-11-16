@@ -1,0 +1,2 @@
+The errors for simpson's rule oscillate significantly since the method used to generate plots inputs both even and odd numbers of subintervals, and simpson's rule only works 
+with an even number of subintervals
