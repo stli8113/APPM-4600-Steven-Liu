@@ -27,17 +27,14 @@ def eval_composite_simpsons(M,a,b,f):
     you can return None for the weights
     """
 
-    if(M % 2 != 0):
-        print("N is not even!")
-        return 0
+    # if(M % 2 != 0):
+    #     print("N is not even!")
+    #     return 0
     
     h = (b-a)/(M)
     xeval = np.linspace(a,b,M+1)
     yeval = f(xeval)
-    # print(yeval)
     eval_sum = yeval[0] + yeval[-1] + 4 * np.sum(yeval[1:-1:2]) + 2 * np.sum(yeval[2:-1:2])
-    # print(yeval[1:-1:2])
-    # print(4 * np.sum(yeval[1:-1:2]))
     eval_sum = (h/3) * eval_sum
 
     return eval_sum, xeval, None

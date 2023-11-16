@@ -8,10 +8,12 @@ import matplotlib.pyplot as plt
 
 # specify the quadrature method 
 # (eval_gauss_quad, eval_composite_trap, eval_composite_simpsons)
+# method = eval_composite_trap
+# method = eval_composite_simpsons
 method = eval_gauss_quad
 
 # interval of integration [a,b]
-a = 0.; b = 1.
+a = 0.1; b = 2.
 # function to integrate and true values
 # TRYME: uncomment and comment to try different funcs
 #        make sure to adjust I_true values if using different interval!
@@ -23,7 +25,7 @@ a = 0.; b = 1.
 f = lambda x: np.sin(1./x); I_true = 1.1455808341; labl = '$\sin(1/x)$'
 
 # absolute tolerance for adaptive quad 
-tol = 1e-14
+tol = 1e-3
 # machine eps in numpy
 eps = np.finfo(float).eps
 
