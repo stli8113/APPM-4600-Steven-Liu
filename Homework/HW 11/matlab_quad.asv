@@ -1,0 +1,9 @@
+clc 
+clear all
+
+[q,fcnEvals] = quad(@f, 0, 10)
+
+
+function gamma = f(x)
+    gamma = x.^(2-1) .* exp(-x);
+end
